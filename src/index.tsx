@@ -43,7 +43,7 @@ const App = () => {
 	const { columns, rows } = size;
   const rowsWithSpace = rows - 1;
 
-  process.stdout.write('\x1b[2J\x1b[0f'); // Clear screen + move cursor to top-left
+  process.stdout.write('\x1b[?1049h');
 
 	return (
 		<Box flexDirection="column" width={columns} height={rowsWithSpace}>
@@ -88,5 +88,5 @@ const App = () => {
 const { waitUntilExit } = render(<App />);
 
 waitUntilExit().then(() => {
-	process.stdout.write('\x1b[2J\x1b[0f');
+	process.stdout.write('\x1b[?1049l');
 });
