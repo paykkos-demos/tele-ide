@@ -68,7 +68,7 @@ const App = () => {
 					flexDirection="column"
 				>
 					<Text color="green">File View</Text>
-					<Text dimColor>Press "q" or Ctrl+C to quit</Text>
+					<Text dimColor>Press "q" to quit</Text>
 					<Text>Terminal: {columns} x {rowsWithSpace}</Text>
 				</Box>
 			</Box>
