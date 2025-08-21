@@ -47,15 +47,6 @@ const App = () => {
 
 	return (
 		<Box flexDirection="column" width={columns} height={rowsWithSpace}>
-			{/* Background filler */}
-			<Box
-				position="absolute"
-				width={columns}
-				height={rowsWithSpace}
-				backgroundColor="black"
-			/>
-
-			{/* Foreground layout */}
 			<Box flexDirection="row" flexGrow={1} width="100%" height="100%">
 				{/* Left Panel */}
 				<Box
