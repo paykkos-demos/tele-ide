@@ -1,40 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { render, Box, Text, useStdout, useInput, useApp } from 'ink';
-import process from 'process';
+import React, { useState, useEffect } from 'react';
+import { render, Box, Text, useInput, useStdout, useApp } from 'ink';
+
+const DEBOUNCE_DELAY = 100; // ms
 
 const App = () => {
-	const [exit, setExit] = useState(false);
 	const { stdout } = useStdout();
 	const { exit: inkExit } = useApp();
-	const { columns, rows } = stdout;
+	const [exit, setExit] = useState(false);
+	const [size, setSize] = useState({ columns: stdout.columns, rows: stdout.rows });
 
 	useInput((input, key) => {
-		// Handle Ctrl+C manually
-		if (key.ctrl && input === 'c') {
+		if (input === 'q' || (key.ctrl && input === 'c')) {
 			setExit(true);
 		}
 	});
 
 	useEffect(() => {
 		if (exit) {
-			inkExit(); // Exits Ink app cleanly
+			inkExit();
 		}
 	}, [exit]);
 
+	useEffect(() => {
+		let timeout: NodeJS.Timeout;
+
+		const onResize = () => {
+			if (timeout) clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				setSize({ columns: stdout.columns, rows: stdout.rows });
+			}, DEBOUNCE_DELAY);
+		};
+
+		stdout.on('resize', onResize);
+
+		// Cleanup
+		return () => {
+			if (timeout) clearTimeout(timeout);
+			stdout.off('resize', onResize);
+		};
+	}, [stdout]);
+
+	const { columns, rows } = size;
+  const rowsWithSpace = rows - 1;
+
   process.stdout.write('\x1b[2J\x1b[0f'); // Clear screen + move cursor to top-left
-  
+
 	return (
-	<Box flexDirection="column" width={columns} height={rows - 1}>
+		<Box flexDirection="column" width={columns} height={rowsWithSpace}>
 			{/* Background filler */}
 			<Box
 				position="absolute"
 				width={columns}
-				height={rows}
+				height={rowsWithSpace}
 				backgroundColor="black"
-			>
-				{/* This box fills the screen */}
-				<Text color="black">{' '.repeat(columns * (rows - 1))}</Text>
-			</Box>
+			/>
 
 			{/* Foreground layout */}
 			<Box flexDirection="row" flexGrow={1} width="100%" height="100%">
@@ -58,10 +77,8 @@ const App = () => {
 					flexDirection="column"
 				>
 					<Text color="green">File View</Text>
-					<Text dimColor>Press "q" to quit</Text>
-					<Text>
-						Terminal: {columns} x {rows}
-					</Text>
+					<Text dimColor>Press "q" or Ctrl+C to quit</Text>
+					<Text>Terminal: {columns} x {rowsWithSpace}</Text>
 				</Box>
 			</Box>
 		</Box>
@@ -71,5 +88,5 @@ const App = () => {
 const { waitUntilExit } = render(<App />);
 
 waitUntilExit().then(() => {
-	process.stdout.write('\x1b[2J\x1b[0f'); // Clear screen again on exit
+	process.stdout.write('\x1b[2J\x1b[0f');
 });
