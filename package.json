@@ -12,7 +12,6 @@
   "devDependencies": {
     "@types/react": "^19.1.10",
     "ink": "^6.2.2",
-    "react": "^19.1.1",
     "tsx": "^4.20.4"
   }
 }
