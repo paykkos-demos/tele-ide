@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { render, Box, Text, useInput, useStdout, useApp } from 'ink';
-
-const DEBOUNCE_DELAY = 100; // ms
+import { ScrollBox } from './components/scrollbox/index.js';
 
 const App = () => {
 	const { stdout } = useStdout();
 	const { exit: inkExit } = useApp();
 	const [exit, setExit] = useState(false);
 	const [size, setSize] = useState({ columns: stdout.columns, rows: stdout.rows });
+
+	const content = Array.from({ length: 500 }, (_, i) => `Line ${i}`);
 
 	useInput((input, key) => {
 		if (input === 'q' || (key.ctrl && input === 'c')) {
@@ -28,7 +29,7 @@ const App = () => {
 			if (timeout) clearTimeout(timeout);
 			timeout = setTimeout(() => {
 				setSize({ columns: stdout.columns, rows: stdout.rows });
-			}, DEBOUNCE_DELAY);
+			}, 1);
 		};
 
 		stdout.on('resize', onResize);
@@ -41,37 +42,26 @@ const App = () => {
 	}, [stdout]);
 
 	const { columns, rows } = size;
-  const rowsWithSpace = rows - 1;
+	const rowsWithSpace = rows - 1;
 
-  process.stdout.write('\x1b[?1049h');
+	process.stdout.write('\x1b[?1049h');
 
 	return (
-		<Box flexDirection="column" width={columns} height={rowsWithSpace}>
-			<Box flexDirection="row" flexGrow={1} width="100%" height="100%">
-				{/* Left Panel */}
-				<Box
-					width={30}
-					borderStyle="round"
-					borderColor="cyan"
-					padding={1}
-					flexDirection="column"
-				>
-					<Text color="cyan">Tree View</Text>
-				</Box>
-
-				{/* Right Panel */}
-				<Box
-					flexGrow={1}
-					borderStyle="round"
-					borderColor="green"
-					padding={1}
-					flexDirection="column"
-				>
-					<Text color="green">File View</Text>
-					<Text dimColor>Press "q" to quit</Text>
-					<Text>Terminal: {columns} x {rowsWithSpace}</Text>
-				</Box>
+		<Box flexDirection="row" width={columns} height={rowsWithSpace}>
+			<Box
+				width={30}
+				height={rowsWithSpace}
+				borderStyle="round"
+				borderColor="cyan"
+				flexDirection="column"
+			>
+				<Text color="cyan">Tree View</Text>
 			</Box>
+
+			<ScrollBox
+				width={columns - 30}
+				height={rowsWithSpace}
+				lines={content} />
 		</Box>
 	);
 };
