@@ -5,7 +5,7 @@ export const ScrollBox = ({ lines, width, height }: { lines: string[]; width: nu
 	const [scrollY, setScrollY] = useState(0);
 	const innerHeight = height - 2;
 	
-	useInput((input: any, key: { downArrow: any; upArrow: any; }) => {
+	useInput((_, key) => {
 		if (key.downArrow) {
 			setScrollY(y => Math.min(y + 1, lines.length - innerHeight));
 		}

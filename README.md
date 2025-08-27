@@ -1,6 +1,8 @@
 # tele-ide
 
-**tele-ide** is a Node.js based Command-Line Interface (CLI) Integrated Development Environment designed to seamlessly integrate with local Large Language Models (LLMs) hosted via [LM Studio](https://lmstudio.ai/). It offers developers a powerful, interactive terminal-based coding experience enhanced by AI assistance right from their local environment.
+**tele-ide** is a Node.js based Command-Line Interface (CLI) Integrated Development Environment designed to seamlessly integrate with local Large Language Models (LLMs) hosted via [LM Studio](https://lmstudio.ai/). It's aim is to offers developers a powerful, interactive terminal-based coding experience enhanced by AI assistance right from their local environment.
+
+But currenlty it's still in development and not ready for production use.
 
 ---
 

@@ -26,7 +26,9 @@ const App = () => {
 		let timeout: NodeJS.Timeout;
 
 		const onResize = () => {
-			if (timeout) clearTimeout(timeout);
+			if (timeout) {
+				clearTimeout(timeout);
+			}
 			timeout = setTimeout(() => {
 				setSize({ columns: stdout.columns, rows: stdout.rows });
 			}, 1);
@@ -36,7 +38,9 @@ const App = () => {
 
 		// Cleanup
 		return () => {
-			if (timeout) clearTimeout(timeout);
+			if (timeout) {
+				clearTimeout(timeout);
+			}
 			stdout.off('resize', onResize);
 		};
 	}, [stdout]);
