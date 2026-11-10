@@ -10,8 +10,9 @@
     "start": "tsx src/index.tsx"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "@types/react": "^19.1.10",
-    "ink": "^6.2.2",
+    "ink": "^8.0.0",
     "tsx": "^4.20.4"
   }
 }

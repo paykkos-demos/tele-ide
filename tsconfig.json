@@ -7,10 +7,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
-    "baseUrl": "src",
     "paths": {
-      "components/*": ["components/*"]
-    }
+      "components/*": ["./components/*"]
+    },
+    "types": ["node"]
   },
   "include": ["src"]
 }
