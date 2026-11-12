@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { render, Box, Text, useInput, useStdout, useApp, useWindowSize } from 'ink';
+import { useState, useEffect } from 'react';
+import { render, Box, Text, useInput, useApp, useWindowSize } from 'ink';
 import { ScrollBox } from './components/scrollbox/index.js';
 
 const App = () => {
