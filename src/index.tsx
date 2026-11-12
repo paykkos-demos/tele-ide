@@ -45,5 +45,5 @@ const App = () => {
 const { waitUntilExit } = render(<App />, { alternateScreen: true });
 
 waitUntilExit().then(() => {
-	process.stdout.write('\x1b[?1049l');
+	//process.stdout.write('\x1b[?1049l');
 });
